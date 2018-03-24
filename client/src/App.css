@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.App-header {
+  background-color: #226;
+  height: 100px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-body {
+  font-size: 1.5em;
+  text-align: left;
+}
+
+.App-body {
+  list-style-type: none;
+}
+
+.App-body li {
+  padding-top: 20px;
+}
+
+.App-body li .author {
+  color: #888;
+}
+
+.App-body li img {
+  vertical-align: middle;
+}
+
+.App-body li button.vote {
+  padding: 0;
+  border: none;
+  background: none;
+}
+
+.votes {
+  margin: 6px 12px 6px 6px;
+  padding: 4px 12px;
+  background-color: #ee3;
+  border: 1px solid #cc1;
+}
