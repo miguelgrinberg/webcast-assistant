@@ -62,7 +62,7 @@ def gitter_stream():
     rv.raise_for_status()
     for line in rv.iter_lines(decode_unicode=True):
         try:
-            msg = json.loads(line)
+            msg = json.loads(line.decode('utf-8'))
         except:
             continue
         if msg['html'].lower().startswith(app.config['GITTER_PREFIX']):

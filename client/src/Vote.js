@@ -3,12 +3,13 @@ import upvote from './upvote.png';
 import upvoted from './upvoted.png';
 
 export default class Vote extends Component {
-  upvote_question() {
+  upvote_question(e) {
     fetch('/api/questions/' + this.props.id, {
       method: 'POST',
       credentials: 'include'
     });
     this.props.upvote_handler(this.props.id);
+    e.preventDefault();
   }
 
   render() {
