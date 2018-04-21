@@ -1,3 +1,4 @@
+from functools import wraps
 import json
 import os
 import random
@@ -85,6 +86,16 @@ def gitter_thread():
             print('thread exited, restarting')
 
 
+def admin_required(f):
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        if request.headers.get('Authorization') != 'Bearer {}'.format(
+                app.config['ADMIN_TOKEN']):
+            return jsonify({'error': 'Missing or bad token'}), 401
+        return f(*args, **kwargs)
+    return wrapped
+
+
 @app.before_request
 def before_request():
     if 'votes' not in session:
@@ -121,12 +132,19 @@ def vote_question(id):
     return '', 204
 
 
+@app.route('/api/questions', methods=['DELETE'])
+@admin_required
+def reset_questions():
+    """Reset the database of questions."""
+    Question.query.delete()
+    db.session.commit()
+    return '', 204
+
+
 @app.route('/api/giveaways', methods=['POST'])
+@admin_required
 def giveaway():
     """Select a random user from those who are online in the gitter room."""
-    if request.headers.get('Authorization') != 'Bearer {}'.format(
-            app.config['ADMIN_TOKEN']):
-        return jsonify({'error': 'Missing token'}), 401
     product = request.get_json().get('product')
     if product is None:
         return jsonify({'error': 'Missing product'}), 400
